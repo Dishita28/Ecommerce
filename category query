@@ -1,0 +1,7 @@
+INSERT INTO catalog (name, decription, price, image, category) VALUES
+('Red T-shirt', 'Stylish red cotton T-shirt', 499.00, 'images/red-tshirt.jpg', 'Clothing'),
+('Running Shoes', 'Comfortable running shoes for everyday use', 1499.00, 'images/running-shoes.jpg', 'Footwear'),
+('Smartphone X1', 'Latest model smartphone with 5G', 29999.00, 'images/smartphone-x1.jpg', 'Electronics'),
+('Laptop Pro 15', 'High-performance laptop for professionals', 75999.00, 'images/laptop-pro.jpg', 'Electronics'),
+('Mixer Grinder', 'Powerful mixer grinder for kitchen use', 3999.00, 'images/mixer-grinder.jpg', 'Home Appliances'),
+('Vacuum Cleaner', 'Advanced vacuum cleaner with HEPA filter', 7999.00, 'images/vacuum-cleaner.jpg', 'Home Appliances');
