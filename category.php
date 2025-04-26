@@ -1,12 +1,21 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "category");
+$conn = new mysqli("localhost", "root", "", "ecom");
+
 $sql = "SELECT DISTINCT category FROM catalog";
 $categories = $conn->query($sql);
+
 $items = null;
 $selectedCat = "";
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['category']) && $_GET['category'] != "") {
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['category'])) {
     $selectedCat = $conn->real_escape_string($_GET['category']);
-    $items = $conn->query("SELECT * FROM catalog WHERE category = '$selectedCat'");
+    if ($selectedCat != "") {
+        $items = $conn->query("SELECT * FROM catalog WHERE category = '$selectedCat'");
+    } else {
+        $items = $conn->query("SELECT * FROM catalog"); // Show all products when no category selected
+    }
+} else {
+    $items = $conn->query("SELECT * FROM catalog"); // Also show all products on first load
 }
 ?>
 <!DOCTYPE html>
@@ -16,16 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['category']) && $_GET['ca
 </head>
 <body>
 <h2>Select Product Category</h2>
+
 <form method="get" action="">
     <select name="category" onchange="this.form.submit()">
-        <option value="">-- Choose a category --</option>
+        <option value="">-- All Categories --</option>
         <?php while ($row = $categories->fetch_assoc()) {
             $selected = ($selectedCat == $row['category']) ? 'selected' : '';
             echo "<option value='{$row['category']}' $selected>{$row['category']}</option>";
         } ?>
     </select>
 </form>
+
 <hr>
+
 <?php
 if ($items && $items->num_rows > 0) {
     while ($item = $items->fetch_assoc()) {
@@ -35,8 +47,8 @@ if ($items && $items->num_rows > 0) {
         echo "₹{$item["price"]}";
         echo "</div>";
     }
-} elseif ($selectedCat) {
-    echo "No products found in this category.";
+} else {
+    echo "No products found.";
 }
 ?>
 </body>
